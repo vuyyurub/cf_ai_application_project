@@ -1,32 +1,69 @@
 # AI-Powered Chat Assistant
 
-An AI-powered conversational assistant built on Cloudflare's platform.
+An intelligent conversational AI assistant built on Cloudflare's platform, leveraging Llama 3.3 for natural language understanding and Cloudflare Workers AI for edge-based inference. The application demonstrates a complete AI-powered system with persistent memory, tool calling, and task scheduling capabilities.
 
 ## Live Demo
 
 **Deployed Application:** https://agents-starter.bhaveshvuyyuru.workers.dev/
 
-## Some features of this project include:
+## Features
 
-- **LLM Integration**: Uses Llama 3.3-70B via Cloudflare Workers AI
-- **Conversational Memory**: Persistent conversation history using Durable Objects with SQLite
-- **State Management**: Built-in state management via Cloudflare Agents SDK
+### Core Capabilities
 
-## Architecture
+-  Powered by Llama 3.3-70B model via Cloudflare Workers AI
+- Persistent conversation history using Durable Objects with embedded SQLite for state management
+- Built-in task scheduling system 
+- WebSocket-based real-time chat interface
+- State synchronization via Cloudflare Agents SDK and Durable Objects
 
-This application meets Cloudflare's AI application requirements:
+### Available Tools
+
+The assistant can use the following tools when appropriate:
+
+1. **Weather Information** (`getWeatherInformation`)
+
+   - Fetches real-time weather data for any city using the wttr.in API
+   - Returns temperature, conditions, and humidity
+
+2. **Local Time** (`getLocalTime`)
+
+   - Retrieves current time for major cities worldwide
+   - Uses WorldTimeAPI for accurate timezone-based time information
+
+3. **Task Scheduling** (`scheduleTask`, `getScheduledTasks`, `cancelScheduledTask`)
+   - Schedule tasks with cron expressions, delays, or specific dates
+   - List and manage all scheduled tasks
+   - Tasks execute automatically at scheduled times
 
 ## Project Structure
 
 ```
 agents-starter/
 ├── src/
-│   ├── server.ts          # Agent logic with Llama 3.3 integration
+│   ├── server.ts          # Core agent logic with Llama 3.3 integration
+│   │                      # - Chat class extending AIChatAgent
+│   │                      # - Conditional tool passing logic
+│   │                      # - Task execution handler
 │   ├── tools.ts           # Tool definitions (weather, time, scheduling)
-│   ├── app.tsx            # React chat interface
-│   └── utils.ts           # Helper functions
+│   │                      # - Real API integrations
+│   │                      # - Automatic execution
+│   ├── app.tsx            # React chat interface component
+│   │                      # - WebSocket connection via useAgent
+│   │                      # - Streaming UI updates
+│   │                      # - Theme support (light/dark)
+│   └── utils.ts           # Helper functions for message processing
 ├── wrangler.jsonc         # Cloudflare Workers configuration
+│                          # - Durable Object bindings
+│                          # - Workers AI binding
+│                          # - SQLite migrations
 └── package.json           # Dependencies and scripts
 ```
 
-- Weather and time tools use free APIs (wttr.in and WorldTimeAPI)
+
+
+## External API Integrations
+
+- **Weather Data**: wttr.in (free weather API)
+- **Time Information**: WorldTimeAPI.org (free timezone API)
+
+All external integrations are free-tier services and do not require API keys.
